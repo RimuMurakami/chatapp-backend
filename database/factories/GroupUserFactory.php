@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Group;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,9 +18,12 @@ class GroupUserFactory extends Factory
      */
     public function definition(): array
     {
+        $userIds = User::pluck('id')->all();
+        $groupIds = Group::pluck('id')->all();
+
         return [
-            'user_id' => fake()->numberBetween(1, 6),
-            'group_id' => fake()->numberBetween(1, 10),
+            'user_id' => fake()->randomElement($userIds),
+            'group_id' => fake()->randomElement($groupIds),
             'role' => fake()->randomElement(['admin', 'member']),
         ];
     }

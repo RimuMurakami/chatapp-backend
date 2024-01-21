@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('group_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('group_id');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('group_id')->constrained();
             $table->string('role');
             $table->timestamps();
 
-            $table->unique(['user_id', 'group_id']);
+            // $table->unique(['user_id', 'group_id']);
         });
     }
 

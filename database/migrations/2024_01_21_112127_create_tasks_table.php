@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('channel_id');
-            $table->foreignId('user_id');
+            $table->foreignId('channel_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->text('task');
             $table->timestamps();
         });

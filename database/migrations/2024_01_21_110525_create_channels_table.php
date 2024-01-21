@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('channels', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('group_id');
+            $table->foreignId('group_id')->constrained();
             $table->string('name');
             $table->text('overview');
             $table->string('type');
