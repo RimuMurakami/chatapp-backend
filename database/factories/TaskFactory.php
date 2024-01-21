@@ -17,7 +17,9 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'channel_id' => fake()->numberBetween(1, 10),
+            'user_id' => fake()->numberBetween(1, 6),
+            'task' => fake()->realTextBetween(5, 12),
         ];
     }
 }

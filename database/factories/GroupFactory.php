@@ -17,7 +17,8 @@ class GroupFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->realText(10),
+            'description' => fake()->realTextBetween(10, 20),
         ];
     }
 }

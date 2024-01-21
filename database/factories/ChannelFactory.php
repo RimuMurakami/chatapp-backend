@@ -17,7 +17,10 @@ class ChannelFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'group_id' => fake()->numberBetween(1, 10),
+            'name' => fake()->realTextBetween(10, 15),
+            'overview' => fake()->realTextBetween(10, 20),
+            'type' => fake()->randomElement(['private']),
         ];
     }
 }

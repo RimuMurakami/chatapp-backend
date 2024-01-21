@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('group_id');
             $table->string('role');
             $table->timestamps();
+
+            $table->unique(['user_id', 'group_id']);
         });
     }
 

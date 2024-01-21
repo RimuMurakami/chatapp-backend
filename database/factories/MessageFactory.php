@@ -17,7 +17,10 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'channel_id' => fake()->numberBetween(1, 10),
+            'user_id' => fake()->numberBetween(1, 6),
+            'message' => fake()->realTextBetween(5, 30),
+            'type' => fake()->randomElement(['text']),
         ];
     }
 }

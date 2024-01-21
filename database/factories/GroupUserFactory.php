@@ -17,7 +17,9 @@ class GroupUserFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => fake()->numberBetween(1, 6),
+            'group_id' => fake()->numberBetween(1, 10),
+            'role' => fake()->randomElement(['admin', 'member']),
         ];
     }
 }
