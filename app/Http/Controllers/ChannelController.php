@@ -13,7 +13,7 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        //
+        return redirect(env('FRONTEND_URL') . '/chat');
     }
 
     /**
