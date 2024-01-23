@@ -26,7 +26,7 @@ class GoogleLoginController extends Controller
 
             // ddd($user);
 
-            // TODO: DBへクリエイト処理
+            // DBへクリエイト処理
             $user = User::firstOrCreate(
                 ['email' => $googleUser->email],
                 ['name' => $googleUser->name],

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreChannelRequest;
 use App\Http\Requests\UpdateChannelRequest;
 use App\Models\Channel;
+use Illuminate\Support\Facades\Auth;
 
 class ChannelController extends Controller
 {
@@ -13,7 +14,7 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        return redirect(env('FRONTEND_URL') . '/chat');
+        return 'hi';
     }
 
     /**

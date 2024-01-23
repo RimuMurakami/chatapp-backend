@@ -27,6 +27,13 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('asdfasdf'),
         ]);
 
+        $this->call([
+            GroupSeeder::class,
+            GroupUserSeeder::class,
+            ChannelSeeder::class,
+            MessageSeeder::class,
+        ]);
+
         Group::factory(10)->create();
         GroupUser::factory(10)->create();
         Channel::factory(10)->create();
