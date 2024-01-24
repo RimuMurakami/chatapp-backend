@@ -9,8 +9,8 @@ use App\Models\Group;
 use App\Models\GroupUser;
 use App\Models\Message;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,23 +19,17 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(5)->create();
-
-        \App\Models\User::factory()->create([
-            'name' => 'Riccha',
-            'email' => 'test@example.com',
-            'password' => Hash::make('asdfasdf'),
-        ]);
-
         $this->call([
-            GroupSeeder::class,
-            GroupUserSeeder::class,
-            ChannelSeeder::class,
-            MessageSeeder::class,
+            UserSeeder::class,
+            // GroupSeeder::class,
+            // GroupUserSeeder::class,
+            // ChannelSeeder::class,
+            // MessageSeeder::class,
         ]);
 
+        User::factory(5)->create();
         Group::factory(10)->create();
-        GroupUser::factory(10)->create();
+        GroupUser::factory(20)->create();
         Channel::factory(10)->create();
         Task::factory(10)->create();
         Message::factory(100)->create();
