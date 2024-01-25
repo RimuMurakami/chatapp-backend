@@ -47,4 +47,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Group::class)->withPivot('role');
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
+
+    // public function channels()
+    // {
+    //     return $this->belongsToMany(Channel::class, 'tasks')->withPivot('task');
+    // }
 }

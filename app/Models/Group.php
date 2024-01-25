@@ -18,4 +18,9 @@ class Group extends Model
     {
         return $this->hasMany(Channel::class);
     }
+
+    public function group_user()
+    {
+        return $this->hasMany(GroupUser::class);
+    }
 }

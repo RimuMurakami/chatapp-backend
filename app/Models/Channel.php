@@ -14,13 +14,18 @@ class Channel extends Model
         return $this->belongsTo(Group::class);
     }
 
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
-    }
+    // public function users()
+    // {
+    //     return $this->belongsToMany(User::class, 'tasks')->withPivot('task');
+    // }
 
     public function messages()
     {
         return $this->hasMany(Message::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 }

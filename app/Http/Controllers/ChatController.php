@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ChatController extends Controller
 {
@@ -13,27 +14,39 @@ class ChatController extends Controller
      */
     public function index()
     {
+        /** @var \App\Models\User $user **/
+
+        // loadを使用したパターン
         $user = Auth::user();
-        $groups = Auth::user()->groups;
+        $groups = $user->load('groups.channels.messages.user', 'groups.channels.tasks', 'groups.group_user')->groups;
+        $channels = $groups->flatMap->channels;
+        // $messages = $channels->flatMap->messages;
 
-        $channels = collect();
-        foreach ($groups as $group) {
-            $channels = $channels->concat($group->channels);
-        }
+        // profile-icon取得
+        // TODO: フロント側でうまく取得できない
+        // $profileIcon = Storage::disk('local')->url($user->profile_path);
+        $profileIcon = Storage::get($user->profile_path);
 
-        $messages = collect();
-        foreach ($channels as $channel) {
-            $messages = $messages->concat($channel->messages);
-        }
 
+        // withを使用したパターン
+        // $user = User::with('groups.channels.messages.user')->find(Auth::id());
+        // $groups = $user->groups;
         // $channels = $groups->flatMap->channels;
         // $messages = $channels->flatMap->messages;
 
+
+        // roleお試し取得
+        // $roles = [];
+        // foreach ($groups as $group) {
+        //     $roles[$group->id] = $group->pivot->role;
+        // }
+
         return response([
+            'profileIcon' => $profileIcon,
             'user' => $user,
             'groups' => $groups,
             'channels' => $channels,
-            'messages' => $messages
+            'profileIcon' => $profileIcon,
         ]);
     }
 
