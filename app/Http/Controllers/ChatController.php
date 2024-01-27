@@ -20,12 +20,11 @@ class ChatController extends Controller
         $user = Auth::user();
         $groups = $user->load('groups.channels.messages.user', 'groups.channels.tasks', 'groups.group_user')->groups;
         $channels = $groups->flatMap->channels;
-        // $messages = $channels->flatMap->messages;
 
         // profile-icon取得
         // TODO: フロント側でうまく取得できない
         // $profileIcon = Storage::disk('local')->url($user->profile_path);
-        $profileIcon = Storage::get($user->profile_path);
+        // $profileIcon = Storage::get($user->profile_path);
 
 
         // withを使用したパターン
@@ -42,11 +41,10 @@ class ChatController extends Controller
         // }
 
         return response([
-            'profileIcon' => $profileIcon,
+            // 'profileIcon' => $profileIcon,
             'user' => $user,
             'groups' => $groups,
             'channels' => $channels,
-            'profileIcon' => $profileIcon,
         ]);
     }
 
