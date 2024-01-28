@@ -18,4 +18,11 @@ class Message extends Model
     {
         return $this->belongsTo((User::class));
     }
+
+    protected $fillable = [
+        'channel_id',
+        'user_id',
+        'message',
+        'type',
+    ];
 }

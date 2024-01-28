@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,4 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::apiResource('/channels', ChannelController::class)->middleware('auth');
 Route::apiResource('/chats', ChatController::class)->middleware('auth');
+Route::apiResource('/messages', MessageController::class)->middleware('auth');
