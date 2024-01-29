@@ -28,4 +28,10 @@ class Channel extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    protected $fillable = [
+        'name',
+        'overview',
+        'type',
+    ];
 }

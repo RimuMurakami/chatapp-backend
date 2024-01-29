@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreChannelRequest;
 use App\Http\Requests\UpdateChannelRequest;
 use App\Models\Channel;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ChannelController extends Controller
@@ -36,9 +37,10 @@ class ChannelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateChannelRequest $request, Channel $channel)
+    public function update(Request $request, Channel $channel)
     {
-        //
+        $channel->update($request->all());
+        return response($channel);
     }
 
     /**
