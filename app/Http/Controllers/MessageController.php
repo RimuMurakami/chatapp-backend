@@ -51,9 +51,10 @@ class MessageController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMessageRequest $request, Message $message)
+    public function update(Request $request, Message $message)
     {
-        //
+        $message->update($request->all());
+        return response($message);
     }
 
     /**
@@ -61,6 +62,8 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        $messageData = $message;
+        $message->delete();
+        return response($messageData);
     }
 }
