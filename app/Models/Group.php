@@ -23,4 +23,9 @@ class Group extends Model
     {
         return $this->hasMany(GroupUser::class);
     }
+
+    protected $fillable = [
+        'name',
+        'description',
+    ];
 }

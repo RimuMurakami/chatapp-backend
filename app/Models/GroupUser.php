@@ -20,4 +20,10 @@ class GroupUser extends Model
     {
         return $this->belongsTo(Group::class);
     }
+
+    protected $fillable = [
+        'user_id',
+        'group_id',
+        'role',
+    ];
 }

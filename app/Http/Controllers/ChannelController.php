@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreChannelRequest;
 use App\Http\Requests\UpdateChannelRequest;
 use App\Models\Channel;
+use App\Models\Group;
+use App\Models\GroupUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ChannelController extends Controller
 {
@@ -15,15 +18,50 @@ class ChannelController extends Controller
      */
     public function index()
     {
-        return 'hi';
+        /** @var \App\Models\User $user **/
+        $user = Auth::user();
+        $groups = $user->load('groups.channels', 'groups.group_user')->groups;
+        $channels = $groups->flatMap->channels;
+        return response($channels);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreChannelRequest $request)
+    public function store(Request $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+
+            $newGroup = Group::create([
+                'name' => $request->name,
+                'description' => $request->overview,
+            ]);
+
+            $user = Auth::user();
+
+            foreach ($request->users as $user_id) {
+                GroupUser::create([
+                    'user_id' => $user_id,
+                    'group_id' => $newGroup->id,
+                    'role' => $user->id === $user_id ? 'owner' : 'member',
+                ]);
+            }
+
+            $newChannel = Channel::create([
+                'group_id' => $newGroup->id,
+                'name' => $request->name,
+                'overview' => $request->overview,
+                'type' => $request->type,
+            ]);
+
+            DB::commit();
+
+            return response($newChannel, 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json(['message' => 'DB Error'], 500);
+        }
     }
 
     /**
@@ -31,7 +69,8 @@ class ChannelController extends Controller
      */
     public function show(Channel $channel)
     {
-        //
+        // api/channels/${user_id}
+
     }
 
     /**
