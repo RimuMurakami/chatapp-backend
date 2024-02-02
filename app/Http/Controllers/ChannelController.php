@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateChannelRequest;
 use App\Models\Channel;
 use App\Models\Group;
 use App\Models\GroupUser;
+use App\Models\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -53,6 +54,13 @@ class ChannelController extends Controller
                 'name' => $request->name,
                 'overview' => $request->overview,
                 'type' => $request->type,
+            ]);
+
+            $firstMessage = Message::create([
+                'channel_id' => $newChannel->id,
+                'user_id' => $user->id,
+                'message' => "{$user->name}がチャンネルを作成しました。",
+                'type' => 'text',
             ]);
 
             DB::commit();
