@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\StoreMessage;
 use App\Http\Requests\StoreMessageRequest;
 use App\Http\Requests\UpdateMessageRequest;
 use App\Models\Channel;
@@ -25,14 +26,18 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         // $newMessage = null;
-        if ($request->type === 'text') {
-            $newMessage = Message::create([
-                'channel_id' => $request->channel_id,
-                'user_id' => $request->user_id,
-                'message' => $request->message,
-                'type' => $request->type,
-            ]);
-        }
+        // if ($request->type === 'text') {
+        $newMessage = Message::create([
+            'channel_id' => $request->channel_id,
+            'user_id' => $request->user_id,
+            'message' => $request->message,
+            'type' => $request->type,
+        ]);
+        $newMessage->load('user');
+        // }
+
+        broadcast(new StoreMessage($newMessage))->toOthers();
+
         return response($newMessage, 201);
     }
 
