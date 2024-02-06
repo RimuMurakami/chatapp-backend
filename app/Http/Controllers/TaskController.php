@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Models\Task;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -13,23 +14,32 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreTaskRequest $request)
+    public function store(Request $request)
     {
-        //
+        $newTask = Task::create([
+            'channel_id' => $request->channel_id,
+            'user_id' => $request->user_id,
+            'task' => $request->task,
+        ]);
+        $newTask = $newTask->load('user');
+        return response($newTask, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Task $task)
+    public function show($channel_id)
     {
-        //
+        // $tasks = Task::where('channel_id', $channel_id)->get();
+        // $tasks = $tasks->load('user');
+        // return response($tasks);
+        $tasks = Task::where('channel_id', $channel_id)->with('user:id,name')->get();
+        return response($tasks);
     }
 
     /**
@@ -45,6 +55,8 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        //
+        $deletedTask = $task;
+        $task->delete();
+        return response($deletedTask);
     }
 }

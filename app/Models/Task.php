@@ -14,8 +14,14 @@ class Task extends Model
         return $this->belongsTo(Channel::class);
     }
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
-    // }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    protected $fillable = [
+        'channel_id',
+        'user_id',
+        'task',
+    ];
 }

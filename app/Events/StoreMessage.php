@@ -21,6 +21,7 @@ class StoreMessage implements ShouldBroadcast
      */
     public function __construct($message)
     {
+        // $this->dontBroadcastToCurrentUser();
         $this->message = $message;
     }
 
@@ -38,8 +39,8 @@ class StoreMessage implements ShouldBroadcast
         ];
     }
 
-    public function broadcastAs()
-    {
-        return 'my-event';
-    }
+    //     public function broadcastAs()
+    //     {
+    //         return 'my-event';
+    //     }
 }

@@ -37,6 +37,7 @@ class MessageController extends Controller
         // }
 
         broadcast(new StoreMessage($newMessage))->toOthers();
+        // event(new StoreMessage($newMessage))->dontBroadcastToCurrentUser();
 
         return response($newMessage, 201);
     }
