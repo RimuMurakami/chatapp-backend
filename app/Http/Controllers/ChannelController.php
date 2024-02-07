@@ -8,6 +8,7 @@ use App\Models\Channel;
 use App\Models\Group;
 use App\Models\GroupUser;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +24,18 @@ class ChannelController extends Controller
         $user = Auth::user();
         $groups = $user->load('groups.channels', 'groups.group_user')->groups;
         $channels = $groups->flatMap->channels;
-        return response($channels);
+
+        // 各チャンネルに所属するユーザーを取得
+        $channelsWithUsers = $channels->map(function ($channel) {
+            $userIds = GroupUser::where('group_id', $channel->group_id)->pluck('user_id');
+            $users = User::whereIn('id', $userIds)->get();
+            $channel->users = $users;
+            return $channel;
+        });
+
+        return response(
+            $channelsWithUsers
+        );
     }
 
     /**
@@ -56,6 +68,11 @@ class ChannelController extends Controller
                 'type' => $request->type,
             ]);
 
+            // チャンネルに所属するユーザー情報を取得
+            $userIds = GroupUser::where('group_id', $newChannel->group_id)->pluck('user_id');
+            $users = User::whereIn('id', $userIds)->get();
+            $newChannel->users = $users;
+
             $firstMessage = Message::create([
                 'channel_id' => $newChannel->id,
                 'user_id' => $user->id,
@@ -87,6 +104,12 @@ class ChannelController extends Controller
     public function update(Request $request, Channel $channel)
     {
         $channel->update($request->all());
+
+        // チャンネルに所属するユーザー情報を取得
+        $userIds = GroupUser::where('group_id', $channel->group_id)->pluck('user_id');
+        $users = User::whereIn('id', $userIds)->get();
+        $channel->users = $users;
+
         return response($channel);
     }
 
@@ -95,6 +118,10 @@ class ChannelController extends Controller
      */
     public function destroy(Channel $channel)
     {
-        //
+        Message::where('channel_id', $channel->id)->delete();
+
+        $channelData = $channel;
+        $channel->delete();
+        return response($channelData);
     }
 }
