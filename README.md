@@ -1,6 +1,6 @@
 # ChatApp のための API サーバー
 
-チャットアプリ詳細はフロントエンドのリポジトリを参照
+チャットアプリ詳細はフロントエンドのリポジトリを参照<br>
 https://github.com/RimuMurakami/chatapp-frontend
 
 <br><br><br><br><br><br><br><br><br>
